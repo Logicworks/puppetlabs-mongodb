@@ -87,7 +87,7 @@ class Puppet::Provider::Mongodb < Puppet::Provider
     if ssl_is_enabled(config)
       args.push('--ssl')
       args += ['--sslPEMKeyFile', config['sslcert']]
-
+      args.push('--sslAllowInvalidCertificates')
       ssl_ca = config['sslca']
       unless ssl_ca.nil?
         args += ['--sslCAFile', ssl_ca]

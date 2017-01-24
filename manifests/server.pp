@@ -69,6 +69,7 @@ class mongodb::server (
   $config_content  = undef,
   $config_template = undef,
   $ssl             = undef,
+  $ssl_mode        = undef,
   $ssl_key         = undef,
   $ssl_ca          = undef,
   $restart         = $mongodb::params::restart,

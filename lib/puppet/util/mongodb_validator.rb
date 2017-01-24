@@ -17,7 +17,7 @@ module Puppet
           # Unfortunately URI needs a scheme, hence the http
           # string here to make the string URI compliant.
           uri = URI("http://#{mongodb_resource_name}")
-          @mongodb_server = uri.host
+          @mongodb_server = IPAddr.new(uri.host).to_s
           @mongodb_port = uri.port
         rescue
           @mongodb_server = mongodb_server
