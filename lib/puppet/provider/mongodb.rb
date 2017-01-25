@@ -1,5 +1,7 @@
 require 'yaml'
 require 'json'
+require 'socket'
+
 class Puppet::Provider::Mongodb < Puppet::Provider
 
   # Without initvars commands won't work.
@@ -87,8 +89,7 @@ class Puppet::Provider::Mongodb < Puppet::Provider
     if ssl_is_enabled(config)
       args.push('--ssl')
       args += ['--sslPEMKeyFile', config['sslcert']]
-      args.push('--sslAllowInvalidCertificates')
-      args.push('--sslAllowInvalidHostnames')
+
       ssl_ca = config['sslca']
       unless ssl_ca.nil?
         args += ['--sslCAFile', ssl_ca]
@@ -106,7 +107,7 @@ class Puppet::Provider::Mongodb < Puppet::Provider
       first_ip_in_list = bindip.split(',').first
       case first_ip_in_list
       when '0.0.0.0'
-        ip_real = '127.0.0.1'
+        ip_real = Socket.gethostbyname(Socket.gethostname).first
       when /\[?::0\]?/
         ip_real = '::1'
       else
